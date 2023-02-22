@@ -539,22 +539,13 @@ $enquiryDetailsdata = $this->db->query("SELECT * FROM enquiry WHERE isactive = 1
                                 <p style="color:red"><?php echo $this->session->flashdata('quotation_del_owner_message') ?></p>
                             </center>
                             <h5 class="card-title">Owner Details</h5>
-                            <form method="post" action="Enquiry/save_owner_data" autocomplete="off">
+                            <form method="post" action="<?= base_url()?>/Enquiry/save_owner_data" autocomplete="off">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <input class="form-control" type="hidden" name="enquiry_id" id="enquiry_id" value="<?php echo $_GET['enquiry_id'] ?>">
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <input class="form-control" name="name" id="name" placeholder="Owner Name">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <input class="form-control" name="mobile_no" id="mobile_no" placeholder="Mobile No.">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <input class="form-control" name="landline" id="landline" placeholder="Landline No.">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <input class="form-control" name="email" id="email" placeholder="Owner Email">
                                     </div>
                                     <div class="col-sm-6">
                                         <input class="form-control"  name="dob" id="dob" placeholder="DOB" onfocus="this.type='date'" max="<?php echo date("Y-m-d") ?>">
@@ -562,11 +553,27 @@ $enquiryDetailsdata = $this->db->query("SELECT * FROM enquiry WHERE isactive = 1
                                     <div class="col-sm-6">
                                         <input class="form-control"  name="marriage_anniversary_date" id="marriage_anniversary_date" placeholder="Marriage Anniversary Date" onfocus="this.type='date'" max="<?php echo date("Y-m-d") ?>">
                                     </div>
-                                    <div class="col-sm-12">
-                                        <br>
-                                        <button type="submit" class="btn btn-primary  text-white" >Save</button>
-                                    </div>
                                 </div>
+								<div id="ownerContactDiv" style="margin-top: 18px;">
+									<div class="row wrapping_owner">
+										<div class="col-sm-3">
+											<input class="form-control" name="ContactOwner[0][mobile_no]" id="mobile_no" placeholder="Mobile No." required>
+										</div>
+										<div class="col-sm-3">
+											<input class="form-control" name="ContactOwner[0][landline]" id="landline" placeholder="Landline No." required>
+										</div>
+										<div class="col-sm-3">
+											<input class="form-control" name="ContactOwner[0][email]" id="email" placeholder="Email" required>
+										</div>
+										<div class="col-md-3">
+											<button type="button" class="btn btn-primary text-white" id="addMoreOwnerContact" ><i class="fa fa-plus"></i>Add More</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<br>
+									<button type="submit" class="btn btn-primary  text-white" >Save</button>
+								</div>
                             </form>
                             <div class="card">
                                 <center>
@@ -621,15 +628,18 @@ $enquiryDetailsdata = $this->db->query("SELECT * FROM enquiry WHERE isactive = 1
                                                                                     <input class="form-control" name="name" id="name" placeholder="Owner Name"  value="<?php echo $getownerDetails->name ?>">
                                                                                 </div>
                                                                                 <div class="col-sm-4">
-                                                                                    <input class="form-control" name="mobile_no" id="mobile_no" placeholder="Mobile No./Landline No."  value="<?php echo $getownerDetails->mobile_no ?>">
+                                                                                    <input class="form-control" name="mobile_no" id="mobile_no" placeholder="Mobile No."  value="<?php echo $getownerDetails->mobile_no ?>">
                                                                                 </div>
+																				<div class="col-sm-4">
+																					<input class="form-control" name="landline" id="landline" placeholder="Landline No."  value="<?php echo $getownerDetails->landline ?>">
+																				</div>
                                                                                 <div class="col-sm-4">
                                                                                     <input class="form-control" name="email" id="email" placeholder="Owner Email"  value="<?php echo $getownerDetails->email ?>">
                                                                                 </div>
-                                                                                <div class="col-sm-6">
+                                                                                <div class="col-sm-4">
                                                                                     <input class="form-control"  name="dob" id="dob" placeholder="DOB" onfocus="this.type='date'" max="<?php echo date("Y-m-d") ?>"  value="<?php echo $getownerDetails->dob ?>">
                                                                                 </div>
-                                                                                <div class="col-sm-6">
+                                                                                <div class="col-sm-4">
                                                                                     <input class="form-control"  name="marriage_anniversary_date" id="marriage_anniversary_date"  value="<?php echo $getownerDetails->marriage_anniversary_date ?>" placeholder="Marriage Anniversary Date" onfocus="this.type='date'" max="<?php echo date("Y-m-d") ?>">
                                                                                 </div>
                                                                                 <div class="col-sm-12">
@@ -1297,6 +1307,35 @@ $enquiryDetailsdata = $this->db->query("SELECT * FROM enquiry WHERE isactive = 1
 			let text = 'Are you sure you want to remove this item?';
 			if (confirm(text) == true) {
 				$('div#wrapping_edit_' + index + '').remove();
+			}
+		}
+
+		/*----Owner*/
+		var indexOwnerCOntact = $('#ownerContactDiv .wrapping_owner').length;
+		$(document).on('click', '#addMoreOwnerContact', function () {
+			var html=`<div class="row wrapping_owner" id="mainOwnerWraaping_${indexOwnerCOntact}">
+						<div class="col-sm-3">
+							<input class="form-control" name="ContactOwner[${indexOwnerCOntact}][mobile_no]" id="mobile_no" placeholder="Mobile No." required>
+						</div>
+						<div class="col-sm-3">
+							<input class="form-control" name="ContactOwner[${indexOwnerCOntact}][landline]" id="landline" placeholder="Landline No." required>
+						</div>
+						<div class="col-sm-3">
+							<input class="form-control" name="ContactOwner[${indexOwnerCOntact}][email]" id="email" placeholder="Email" required>
+						</div>
+						<div class="col-sm-3">
+						<button data-index="${indexOwnerCOntact}" style="margin-top: 5px;" type="button" class="btn btn-primary text-white" onclick="deleteOwnerContact(${indexOwnerCOntact})"><i class="fa fa-trash"></i> Delete</button>
+						</div>
+					</div>`;
+
+			$('#ownerContactDiv').append(html);
+			indexOwnerCOntact++;
+		});
+
+		function deleteOwnerContact(index){
+			let text = 'Are you sure you want to remove this item?';
+			if (confirm(text) == true) {
+				$('div#mainOwnerWraaping_' + index + '').remove();
 			}
 		}
 

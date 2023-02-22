@@ -330,41 +330,29 @@ class Enquiry extends CI_Controller
                 ->session
                 ->userdata['role'] == (1 || 2))
         {
-            $data = array(
-                "enquiry_id" => $this
-                    ->input
-                    ->post('enquiry_id') ,
-                "name" => $this
-                    ->input
-                    ->post('name') ,
-                "mobile_no" => $this
-                    ->input
-                    ->post('mobile_no') ,
-                "landline" => $this
-                    ->input
-                    ->post('landline') ,
-                "email" => $this
-                    ->input
-                    ->post('email') ,
-                "dob" => $this
-                    ->input
-                    ->post('dob') ,
-                "marriage_anniversary_date" => $this
-                    ->input
-                    ->post('marriage_anniversary_date') ,
-                "created_datetime" => date('Y-m-d H:i:s') ,
-                "created_by" => $this
-                    ->session
-                    ->userdata['user_id']
-            );
 
-            $this
-                ->load
-                ->model('Enquiry_model');
+			$this->load->model('Enquiry_model');
 
-            $response = $this
-                ->Enquiry_model
-                ->save_owner_data($data);
+			$response=false;
+			if (isset($_REQUEST['ContactOwner'])){
+				foreach ($_REQUEST['ContactOwner'] as $key=>$requestSingle){
+
+					$data = array(
+						"enquiry_id" => $this->input->post('enquiry_id') ,
+						"name" => $this->input->post('name') ,
+						"dob" => $this->input->post('dob'),
+						"marriage_anniversary_date" =>$this->input->post('marriage_anniversary_date'),
+						"mobile_no" =>$requestSingle['mobile_no'],
+						"landline" =>$requestSingle['landline'],
+						"email" =>$requestSingle['email'],
+						"created_datetime" => date('Y-m-d H:i:s') ,
+						"created_by" => $this->session->userdata['user_id']
+					);
+
+					$ContactModel = $this->Enquiry_model->save_owner_data($data);
+					$response=true;
+				}
+			}
 
             if ($response == true)
             {
@@ -1318,7 +1306,7 @@ class Enquiry extends CI_Controller
                 ->session
                 ->userdata['role'] == (1 || 2))
         {
-            $quotation_contact_id = $_GET['quotation_owner_id'];
+			$quotation_owner_id = $_GET['quotation_owner_id'];
             $enquiryid = $_GET['enquiry_id'];
 
             $this
@@ -1576,6 +1564,7 @@ class Enquiry extends CI_Controller
                 "enquiry_id" => $this->input->post('enquiry_id') ,
                 "name" => $this->input->post('name') ,
                 "mobile_no" => $this->input->post('mobile_no') ,
+                "landline" => $this->input->post('landline') ,
                 "email" => $this->input->post('email') ,
                 "dob" => $this->input->post('dob') ,
                 "marriage_anniversary_date" => $this->input->post('marriage_anniversary_date') ,

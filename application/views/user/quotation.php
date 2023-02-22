@@ -491,13 +491,15 @@ if(!empty($enquiry_id)){
                                     <tr>
                                         <th>Sl</th>
                                         <th>View Quotation</th>
+                                        <th>Company Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                    foreach($getAllQuotationsDetials as $key=>$getquotationDetails){ $key++;?>
+                                    foreach($getAllQuotationsDetials as $key=>$getquotationDetails){
+                                    	$key++;?>
                                         <tr>
                                             <td><?php echo $key; ?></td>
                                             
@@ -512,7 +514,9 @@ if(!empty($enquiry_id)){
                                                  <?php } ?>
 
                                             </td>
-                                            
+                                            <td>
+												<?=$getquotationDetails->company?>
+											</td>
                                             <td>
                                                 <?php
                                                 if ($getquotationDetails->mail_sent_status==1){
