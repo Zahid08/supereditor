@@ -491,6 +491,7 @@ if(!empty($enquiry_id)){
                                     <tr>
                                         <th>Sl</th>
                                         <th>View Quotation</th>
+                                        <th>Quotation Ref No.</th>
                                         <th>Company Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -499,7 +500,17 @@ if(!empty($enquiry_id)){
                                     <tbody>
                                     <?php
                                     foreach($getAllQuotationsDetials as $key=>$getquotationDetails){
-                                    	$key++;?>
+                                    	$key++;
+
+										$company = $getquotationHeadingDetails->company;
+										$integer =  str_pad($getquotationHeadingDetails->heading_id, 4, '0', STR_PAD_LEFT);
+
+										$nextyear = date("y",strtotime($getquotationHeadingDetails->created_datetime)) + 1;
+										if($company == 'SuperEditors' || $company == 'Coose Company')
+											$reference_no = 'SE'.date("Y",strtotime($getquotationHeadingDetails->created_datetime)).'-'.$nextyear .'/'.$integer;
+										else
+											$reference_no = 'MW'.date("Y",strtotime($getquotationHeadingDetails->created_datetime)).'-'.$nextyear .'/'.$integer;
+                                    	?>
                                         <tr>
                                             <td><?php echo $key; ?></td>
                                             
@@ -508,12 +519,13 @@ if(!empty($enquiry_id)){
                                                 if ($getquotationDetails->quation_status==1) {
                                                     $file_location = base_url() . "/assets/upload_quations/" . $getquotationDetails->upload_quations_image."";
                                                     ?>
-                                                    <a href="<?=$file_location?>" target="_blank">View Quotation</a>
+                                                    <a href="<?=$file_location?>" target="_blank"><?=$getquotationDetails->to_email?></a>
                                                <?php }else{ ?>
-                                                    <a href="<?php echo base_url() ?>GeneratePdfController?enquiry_id=<?php echo $enquiry_id?>&heading_id=<?php echo $getquotationDetails->heading_id ?>" target="_blank">View Quotation</a>
+                                                    <a href="<?php echo base_url() ?>GeneratePdfController?enquiry_id=<?php echo $enquiry_id?>&heading_id=<?php echo $getquotationDetails->heading_id ?>" target="_blank"><?=$getquotationDetails->to_email?></a>
                                                  <?php } ?>
 
                                             </td>
+											<td><?=$reference_no?></td>
                                             <td>
 												<?=$getquotationDetails->company?>
 											</td>
