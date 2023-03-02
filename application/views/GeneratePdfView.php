@@ -237,7 +237,7 @@ Delivery Charges :	<?php echo $delivery_charges ?><br>
 <!--<p>Sampling :	<?php echo $sampling ?></p> -->
 <table>
 	<tr>
-		<td style="width: 70%"><?php echo $extra_text ?></td>
+		<td style="width: 30%"><?php echo $extra_text ?></td>
 	</tr>
 </table>
 <?php if($remark == "1"){ ?>
