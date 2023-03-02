@@ -235,7 +235,7 @@ Delivery Period :	<?php echo $delivery_period ?><br>
 Delivery Charges :	<?php echo $delivery_charges ?><br>
 <span style="width: 80%">Payment Terms :	<?php echo $payment_terms ?></span>
 <!--<p>Sampling :	<?php echo $sampling ?></p> -->
-<span ><?php echo $extra_text ?></span>
+<span style="word-wrap: break-word"><?php echo $extra_text ?></span>
 <?php if($remark == "1"){ ?>
     <br>
     <b>Remark:</b><br>
