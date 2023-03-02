@@ -59,6 +59,7 @@
                                 <li><a href="<?php echo base_url(); ?>Workermaster"><img src="<?php echo base_url(); ?>assets/client_asstes/images/workers-xxl.png" height="20px" width="20px" alt="homepage" />&ensp;Karigar Master </a></li>
                                 <li><a href="<?php echo base_url(); ?>KarigarItemRatedLink"><img src="<?php echo base_url(); ?>assets/client_asstes/images/workers-xxl.png" height="20px" width="20px" alt="homepage" />&ensp;Item Rate Linking Master</a></li>
                                 <li><a href="<?php echo base_url(); ?>Patterns"><img src="<?php echo base_url(); ?>assets/client_asstes/images/train-xxl.png" height="20px" width="20px" alt="homepage" />&ensp;Patterns </a></li>
+                                <li><a href="<?php echo base_url(); ?>PaymentTerms"><img src="<?php echo base_url(); ?>assets/client_asstes/images/train-xxl.png" height="20px" width="20px" alt="homepage" />&ensp;Payment Terms </a></li>
                             </ul>
                         </li>
                          <li> <a class="has-arrow  " href="#" aria-expanded="false">

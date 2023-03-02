@@ -41,6 +41,9 @@ if(!empty($enquiry_id)){
     }
     
 }
+
+$patternList    = $this->db->query("SELECT * from payment_terms where status=1 order by id DESC")->result();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -408,13 +411,10 @@ if(!empty($enquiry_id)){
                                     <div class="col-sm-4">
                                         <select class="form-control" id="payment_terms" name="payment_terms" required>
                                             <option>Choose Payment Terms</option>
-                                            <option value="50% Advance & 50% Within 30days" <?php if($payment_terms == '50% Advance & 50% Within 30days'){ ?> selected <?php } ?>>50% Advance & 50% Within 30days </option>
-                                            <option value="100% Advance" <?php if($payment_terms == '100% Advance'){ ?> selected <?php } ?>>100% Advance </option>
-                                            <option value="100%  Advance Against Delivery" <?php if($payment_terms == '100%  Advance Against Delivery'){ ?> selected <?php } ?>>100%  Advance Against Delivery  </option>
-                                            <option value="50% Advance & 50% within 7days" <?php if($payment_terms == '50% Advance & 50% within 7days'){ ?> selected <?php } ?>>50% Advance & 50% within 7days  </option>
-                                            <option value="100% payment Within 30days" <?php if($payment_terms == '100% payment Within 30days'){ ?> selected <?php } ?>>100% payment Within 30days </option>
-                                            <option value="100% payment Within 15 days" <?php if($payment_terms == '100% payment Within 15 days'){ ?> selected <?php } ?>>100% payment Within 15 days </option>
-                                        </select>
+											<?php foreach ($patternList as $key=>$data) :?>
+                                            <option value="<?=$data->payment_terms?>" <?php if($payment_terms ==$data->payment_terms){ ?> selected <?php } ?>><?=$data->payment_terms?></option>>
+                                            <?php endforeach; ?>
+										</select>
                                     </div>
                                     <!--<div class="col-sm-4">
                                  <input class="form-control" name="sampling" id="sampling" placeholder="Sampling" value="<?php echo $sampling ?>" required>
