@@ -236,9 +236,10 @@ Delivery Charges :	<?php echo $delivery_charges ?><br>
 <span style="width: 80%">Payment Terms :	<?php echo $payment_terms ?></span>
 <!--<p>Sampling :	<?php echo $sampling ?></p> -->
 <table>
-	<tr><span style="width: 80%">Payment Terms :	<?php echo $extra_text ?></span></tr>
+	<tr>
+		<td style="width: 70%"><?php echo $extra_text ?></td>
+	</tr>
 </table>
-
 <?php if($remark == "1"){ ?>
     <br>
     <b>Remark:</b><br>
