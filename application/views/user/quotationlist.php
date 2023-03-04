@@ -342,6 +342,7 @@ LEFT JOIN address a ON a.enquiry_id = e.enquiry_id WHERE  (
                                         <thead>
                                             <tr>
                                                 <th>S. No</th>
+												<th>Quotation Ref No.</th>
                                                 <th>Company Name</th>
                                                 <th>Company Type</th>
                                                 <th>Latest Quotaion</th>
@@ -360,9 +361,18 @@ LEFT JOIN address a ON a.enquiry_id = e.enquiry_id WHERE  (
                                             $c = 0;
                                             foreach($quotationDetails as $getquotationDetails){ 
                                             $c++;
+
+												$nextyear = date("y",strtotime($getquotationDetails->created_datetime)) + 1;
+												$integer =  str_pad($getquotationDetails->heading_id, 4, '0', STR_PAD_LEFT);
+												if($getquotationDetails->company == 'SuperEditors' || $getquotationDetails->company == 'Coose Company')
+													$reference_no = 'SE'.date("Y",strtotime($getquotationDetails->created_datetime)).'-'.$nextyear .'/'.$integer;
+												else
+													$reference_no = 'MW'.date("Y",strtotime($getquotationDetails->created_datetime)).'-'.$nextyear .'/'.$integer;
+
                                             ?>
                                                 <tr>
                                                     <td><?php echo $c ?></td>
+                                                    <td><?php echo $reference_no ?></td>
                                                     <td><a href="<?php echo base_url() ?>Enquiry?enquiry_id=<?php echo $getquotationDetails->enquiry_id ?>" target="_blank">
                                                         <?php echo $getquotationDetails->company_name ?>
                                                         </a>
