@@ -373,8 +373,9 @@ LEFT JOIN address a ON a.enquiry_id = e.enquiry_id WHERE  (
                                                 <tr>
                                                     <td><?php echo $c ?></td>
                                                     <td><?php echo $reference_no ?></td>
-                                                    <td><a href="<?php echo base_url() ?>Enquiry?enquiry_id=<?php echo $getquotationDetails->enquiry_id ?>" target="_blank">
-                                                        <?php echo $getquotationDetails->company_name ?>
+                                                    <td>
+														<a href="<?php echo base_url() ?>Enquiry?enquiry_id=<?php echo $getquotationDetails->enquiry_id ?>" target="_blank">
+                                                       		 <?php echo $getquotationDetails->company_name ?>
                                                         </a>
                                                     </td>
                                                     <td><?php echo $getquotationDetails->company_type ?></td>

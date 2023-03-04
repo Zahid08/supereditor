@@ -491,6 +491,7 @@ $patternList    = $this->db->query("SELECT * from payment_terms where status=1 o
                                     <tr>
                                         <th>Sl</th>
                                         <th>View Quotation</th>
+										<th>To Company Name</th>
                                         <th>Quotation Ref No.</th>
                                         <th>Company Name</th>
                                         <th>Status</th>
@@ -501,6 +502,12 @@ $patternList    = $this->db->query("SELECT * from payment_terms where status=1 o
                                     <?php
                                     foreach($getAllQuotationsDetials as $key=>$getquotationDetails){
                                     	$key++;
+
+										$ToCompany = $this->db->query("SELECT * FROM enquiry WHERE isactive = 1 AND enquiry_id = $enquiry_id ")->row();
+										$toCName='';
+										if ($ToCompany){
+											$toCName=$ToCompany->name;
+										}
 
 										$company = $getquotationHeadingDetails->company;
 										$integer =  str_pad($getquotationHeadingDetails->heading_id, 4, '0', STR_PAD_LEFT);
@@ -525,6 +532,7 @@ $patternList    = $this->db->query("SELECT * from payment_terms where status=1 o
                                                  <?php } ?>
 
                                             </td>
+											<td><?=$toCName?></td>
 											<td><?=$reference_no?></td>
                                             <td>
 												<?=$getquotationDetails->company?>
