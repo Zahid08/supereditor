@@ -233,7 +233,7 @@ MOQ :	<?php echo $moq ?><br>
 GST % Extra :	<?php echo $gst ?><br>
 Delivery Period :	<?php echo $delivery_period ?><br>
 Delivery Charges :	<?php echo $delivery_charges ?><br>
-<span style="width: 80%">Payment Terms :	<?php echo $payment_terms ?></span>
+<span style="width: 80%">Payment Terms :	<?php echo $payment_terms ?></span><br/>
 <!--<p>Sampling :	<?php echo $sampling ?></p> -->
 <span style="word-wrap: break-word"><?php echo $extra_text ?></span>
 <?php if($remark == "1"){ ?>
