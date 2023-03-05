@@ -231,7 +231,7 @@ if(!empty($fromDate) && !empty($toDate)){
                                  <td><?php echo $supplierAdvanceDetails->mode_of_payment ?></td>
                                  <td><?php echo $supplierAdvanceDetails->cheque_no	?></td>
                                  <td><?php echo $supplierAdvanceDetails->bank_detail ?></td>
-                                 <td><a href="<?php echo base_url().'Payment_Paid_Entry_Supplier?vc='.$supplierAdvanceDetails->voucher_no.'&supplier='.$supplierAdvanceDetails->supplier_id ?>"><button class="btn btn-primary">Adjust</button></a></td>
+                                 <td><a href="<?php echo base_url().'Payment_Paid_Entry_Supplier?vc='.$supplierAdvanceDetails->voucher_no.'&supplier='.$supplierAdvanceDetails->supplier_id.'&company='.$supplierAdvanceDetails->company_name ?>"><button class="btn btn-primary">Adjust</button></a></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
