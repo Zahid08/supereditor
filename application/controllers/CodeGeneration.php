@@ -433,12 +433,19 @@ class CodeGeneration extends CI_Controller {
 
 		$getAuthorizations = $this->db->query("SELECT * FROM code_authorizations WHERE start_from=$startForm and start_end=$dataEndOFCode and prefix='".$this->input->post('prefix')."'")->row();
 		if ($getAuthorizations) {
-		    
+
+			$codeGenerationsId = $getAuthorizations->code_generations_id;
+			$code_generations = $this->db->query("SELECT * FROM code_generations WHERE code_generations_id =$codeGenerationsId")->row();
+			$deliveryDate='';
+			if ($code_generations){
+				$deliveryDate=$code_generations->delivery_date;
+			}
+
 			$getAllAuthorizationData = $this->db->query("SELECT * FROM code_authorizations_details WHERE code_authorization_id=$getAuthorizations->id and delete_status=$deleteStatus")->result();
 			$finalresponseArray=array(
 				'codeAuthorizationsDetails'=>$getAllAuthorizationData,
 				'codeGenerations'=>$dataGenerationsItem,
-				'delivery_date'=>date("Y-m-d",strtotime($getAuthorizations->delivery_date))
+				'delivery_date'=>$deliveryDate
 			);
 			print_r(json_encode($finalresponseArray));
 			exit();
