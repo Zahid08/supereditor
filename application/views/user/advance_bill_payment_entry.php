@@ -1,44 +1,5 @@
 <?php
-   $supplierDetailsValue = $this->db->query("SELECT * FROM supplier WHERE is_active = 1")->result();
-
-$where = " WHERE s.is_active = 1 ";
-if (isset($_POST['from_date'])){
-    $fromDate   =$_POST['from_date'];
-    $toDate     =$_POST['to_date'];
-}
-
-if(!empty($_POST['c_name']) ){
-    $c_name = $_POST['c_name'];
-    $where .= " AND a.company_name='$c_name'  ";
-}else{
-    $where .= " ";
-}
-
-
-if (isset($_POST['company_name'])){
-    $company_name=$_POST['company_name'];
-}
-if(!empty($company_name) && !empty($fromDate) AND !empty($toDate) ){
-    $where .= "AND a.supplier_id='$company_name' AND ";
-}else{
-    $where .= " ";
-}
-
-
-
-
-
-if(!empty($fromDate) && !empty($toDate)){
-    $where .= "(a.created_date >='$fromDate' AND a.created_date <='$toDate')";
-}else if(!empty($fromDate) && empty($toDate)){
-    $where .= "(a.created_date >='$fromDate')";
-}else if(empty($fromDate) && !empty($toDate)){
-    $where .= "(a.created_date >='$toDate')";
-}
-
-    $supplierAdvance = $this->db->query("SELECT * FROM  supplier s
-                                             INNER JOIN advance_payment_entry a ON s.supplier_id = a.supplier_id
-                                             $where  ORDER BY 1 DESC")->result();
+$supplierDetailsValue = $this->db->query("SELECT * FROM supplier WHERE is_active = 1")->result();
    ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +12,17 @@ if(!empty($fromDate) && !empty($toDate)){
       <meta name="author" content="">
       <!-- Favicon icon -->
       <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/client_asstes/images/favicon.png">
-      <title>SuperEditors | Supplier Advance Payment Entry  </title>
+      <title>SuperEditors | Advance Bill Payment Entry  </title>
       <!-- Custom CSS -->
       <link href="<?php echo base_url(); ?>assets/client_asstes/css/style.css" rel="stylesheet">
 
    </head>
    <body class="header-fix fix-sidebar">
+   <style>
+	   .col-sm-4 {
+		   margin-bottom: 10px;
+	   }
+   </style>
       <!-- Main wrapper  -->
       <div id="main-wrapper">
          <!-- header header  -->
@@ -70,12 +36,12 @@ if(!empty($fromDate) && !empty($toDate)){
             <!-- Bread crumb -->
             <div class="row page-titles">
                <div class="col-md-5 align-self-center">
-                  <h3 class="text-primary">Supplier Advance Payment Entry</h3>
+                  <h3 class="text-primary">Advance Bill Payment Entry</h3>
                </div>
                <div class="col-md-7 align-self-center">
                   <ol class="breadcrumb">
                      <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                     <li class="breadcrumb-item active">Supplier Advance Payment Entry</li>
+                     <li class="breadcrumb-item active">Advance Bill Payment Entry</li>
                   </ol>
                </div>
             </div>
@@ -88,7 +54,7 @@ if(!empty($fromDate) && !empty($toDate)){
                <!-- Start Page Content -->
                <div class="card">
                   <div class="card-body">
-                     <h4 class="card-title">Supplier Advance Payment Entry  </h4>
+                     <h4 class="card-title">Advance Bill Payment Entry  </h4>
                      <hr>
                         <form method="post" action="<?php echo base_url() ?>Advance_payment_entry/save_advance_payment" id="advancePaymentForm">
                            <div class="row">
@@ -101,13 +67,10 @@ if(!empty($fromDate) && !empty($toDate)){
                                 </select>
                             </div>
                               <div class="col-sm-4">
-                                  <label>Voucher Number</label>
-                                 <input type = "text" class="form-control" name="voucher_no" id="voucher_no" placeholder="Voucher Number" readonly>
+                                  <label>Receipt Number</label>
+                                 <input type = "text" class="form-control" name="voucher_no" id="voucher_no" placeholder="Receipt Number" readonly>
                               </div>
-                              <div class="col-sm-4">
-                                  <label>Payment Date</label>
-                                 <input type="text" onfocus="this.type='date'" class="form-control" name="payment_date" id="payment_date"  placeholder="Payment Date" >
-                              </div>
+
                               <div class="col-sm-4">
                                   <label>Party Name</label>
                                  <select class="form-control" name="party_name"   id="party_name" required>
@@ -117,14 +80,13 @@ if(!empty($fromDate) && !empty($toDate)){
                                  </select>
                               </div>
                               <div class="col-sm-4">
-                                  <label>Advance Amount Paid</label>
+                                  <label>Amount Recd.</label>
                                  <input type="text" onfocus="this.type='number'" class="form-control" name="amount_paid" id="amount_paid" placeholder="Amount Paid" >
                               </div>
-                             <!-- <div class="col-sm-4">
-                                  <label>Amount Adjusted</label>
-                                 <input type="text" onfocus="this.type='number'" class="form-control" name="amount_adjusted" id="amount_adjusted" placeholder="Amount Adjusted" value="0" readonly>
-                              </div>-->
-
+							   <div class="col-sm-4">
+								   <label>Amount Recd. By</label>
+								   <input type="text" class="form-control" name="amount_paid_by" id="amount_paid_by" placeholder="Amount Recd. By" >
+							   </div>
                               <div class="col-sm-4">
                                   <label>Mode of Payment</label>
                                  <select type = "text" class="form-control" name="payment_mode" id="payment_mode"  >
@@ -142,28 +104,24 @@ if(!empty($fromDate) && !empty($toDate)){
                                   <label>Cheque No/DD No</label>
                                  <input type="text"   class="form-control" name="cheque_no" id="cheque_no" placeholder="Cheque No./Transaction ID" >
                               </div>
+							   <div class="col-sm-4">
+								   <label>Payment Date</label>
+								   <input type="text" onfocus="this.type='date'" class="form-control" name="payment_date" id="payment_date"  placeholder="Payment Date" >
+							   </div>
                               <div class="col-sm-4">
-                                  <label>From Bank </label>
-                                 <input type = "text" class="form-control" name="from_bank" id="from_bank" placeholder="From Bank Details" >
-                              </div>
-                              <div class="col-sm-4">
-                                  <label>To Bank </label>
+                                  <label>Bank Details</label>
                                  <input type = "text" class="form-control" name="to_bank" id="to_bank" placeholder="To Bank Details" >
                               </div>
-                              <div class="col-sm-4">
-                                  <label>Amount Paid By</label>
-                                 <input type="text" class="form-control" name="amount_paid_by" id="amount_paid_by" placeholder="Amount Paid By" >
-                              </div>
-                              <div class="col-sm-12 mt-5">
-                                 <button type="submit" name="save" class="btn btn-primary" id="submitbtn">Save</button>
+
+                              <div class="col-sm-12" style="margin-top: 10px;">
+                                 <button type="submit" name="save" class="btn btn-primary" id="submitbtn">Save Advance Bill Payment</button>
                               </div>
                            </div>
                         </form>
-
                   </div>
 
-                  <br>
-                <div class=" card-title">
+                  <br><hr/>
+                <div class=" card-title" style="margin-top: 10px;">
                     <form  method="post" action="">
                         <div class="row">
                             <div class="col-sm-3">
@@ -197,43 +155,24 @@ if(!empty($fromDate) && !empty($toDate)){
                 </div>
                 <br>
 
-                  <div class="table-responsive m-t-40">
+                  <div class="table-responsive">
                         <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                            <thead>
                               <tr>
                                  <th>Sr.No</th>
-                                 <th>Voucher #</th>
-                                  <th>Company Name</th>
-                                 <th>Payment Date</th>
-                                 <th>Party Name</th>
-                                 <th>Amount Paid</th>
-                                 <th>Amount Adjusted</th>
-                                 <th>Amount Paid By</th>
+                                 <th>Receipt No#</th>
+								 <th>Party Name</th>
+                                 <th>Amount Recd</th>
+                                 <th>Amount Recd. By</th>
                                  <th>Mode of Payment</th>
                                  <th>Cheque No/DD No</th>
+                                 <th>Payment Date</th>
                                  <th>Bank Details</th>
                                  <th>Adjust</th>
                               </tr>
                            </thead>
                            <tbody>
-                              <?php
-                                 $i=1;
-                                     foreach($supplierAdvance as $supplierAdvanceDetails){ ?>
-                              <tr>
-                                 <td><?php echo $i++ ?></td>
-                                 <td><a target="_blank" href="<?php echo base_url() ?>Advance_payment_entry/generatedAdvancePdf?vc=<?php echo $supplierAdvanceDetails->voucher_no ?>"><?php echo $supplierAdvanceDetails->voucher_no ?></a></td>
-                                 <td><?php echo $supplierAdvanceDetails->company_name ?></td>
-                                 <td><?php echo date('d-m-Y', strtotime($supplierAdvanceDetails->payment_date)) ?></td>
-                                 <td><?php echo $supplierAdvanceDetails->supplier_name ?></td>
-                                 <td><?php echo $supplierAdvanceDetails->amount_paid ?></td>
-                                 <td><?php echo $supplierAdvanceDetails->amount_adjusted ?></td>
-                                 <td><?php echo $supplierAdvanceDetails->amount_paid_by ?></td>
-                                 <td><?php echo $supplierAdvanceDetails->mode_of_payment ?></td>
-                                 <td><?php echo $supplierAdvanceDetails->cheque_no	?></td>
-                                 <td><?php echo $supplierAdvanceDetails->bank_detail ?></td>
-                                 <td><a href="<?php echo base_url().'Payment_Paid_Entry_Supplier?vc='.$supplierAdvanceDetails->voucher_no.'&supplier='.$supplierAdvanceDetails->supplier_id.'&company='.$supplierAdvanceDetails->company_name ?>"><button class="btn btn-primary">Adjust</button></a></td>
-                                </tr>
-                                <?php } ?>
+
                             </tbody>
                             </table>
                       </div>

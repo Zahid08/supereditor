@@ -4,6 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Advance_payment_entry extends CI_Controller {
 
+	public function advanceBillPay()
+	{
+		if($this->session->userdata['role'] == (1 || 2) ){
+			$this->load->view('user/advance_bill_payment_entry');
+		}else{
+			$this->load->view('basic/login');
+		}
+	}
+
 	public function index()
 	{
 	    if($this->session->userdata['role'] == (1 || 2) ){
